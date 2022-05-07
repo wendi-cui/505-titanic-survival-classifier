@@ -1,6 +1,5 @@
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc, html
 import base64
 
 boat_photo=base64.b64encode(open('resources/Titanic.png', 'rb').read())
@@ -17,7 +16,7 @@ tab_1_layout = html.Div([
         dcc.Markdown("* Individual results of the testing dataset, for further analysis of incorrect predictions."),
         dcc.Markdown("* A feature to receive new user inputs that makes predictions based on the new data."),
         dcc.Markdown("* An interactive user interface deployed on a cloud platform and accessible to potential reviewers."),
-        html.A('View code on github', href='https://github.com/austinlasseter/titanic_classifier'),
+        html.A('View code on github', href='https://github.com/plotly-dash-apps/505-titanic-survival-classifier'),
     ],className='ten columns'),
     html.Div([
     html.Img(src='data:image/png;base64,{}'.format(boat_photo.decode()), style={'height':'400px'}),
