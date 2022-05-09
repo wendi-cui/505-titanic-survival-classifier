@@ -1,6 +1,6 @@
 # Titanic Survival Classifier
 
-## View deployed app on Heroku: https://titanic-classifier-2021.herokuapp.com
+## View deployed app on Heroku: https://titanic-survival-classifier.herokuapp.com/
 
 This repo is a template for capstone presentations of machine learning. Though simple, it has several important features that should be imitated in any capstone:
 
