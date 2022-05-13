@@ -10,6 +10,12 @@ from utils import display_eval_metrics, Viridis
 
 
 df=pd.read_csv('resources/final_probs.csv')
+fare_list = ['Fare (0, 10]', 'Fare (10, 20]', 'Fare (20, 30]', 'Fare (30, 40]', 'Fare (40, 50]',
+       'Fare (50, 60]', 'Fare (60, 70]', 'Fare (70, 80]', 'Fare (80, 90]',
+       'Fare (90, 100]', 'Fare (100, 110]', 'Fare (110, 120]',
+       'Fare (120, 140]', 'Fare (140, 150]', 'Fare (150, 160]',
+       'Fare (160, 170]', 'Fare (170, 220]', 'Fare (220, 240]',
+       'Fare (240, 250]', 'Fare (250, 270]', 'Fare (270, 600]']
 
 
 ## Instantiante Dash
@@ -84,6 +90,13 @@ def page_3_characteristics(value):
                  'Age (20, 28]',
                  'Age (28, 38]',
                  'Age (38, 80]',
+                 'Fare (0, 10]',
+       'Fare (10, 20]', 'Fare (20, 30]', 'Fare (30, 40]', 'Fare (40, 50]',
+       'Fare (50, 60]', 'Fare (60, 70]', 'Fare (70, 80]', 'Fare (80, 90]',
+       'Fare (90, 100]', 'Fare (100, 110]', 'Fare (110, 120]',
+       'Fare (120, 140]', 'Fare (140, 150]', 'Fare (150, 160]',
+       'Fare (160, 170]', 'Fare (170, 220]', 'Fare (220, 240]',
+       'Fare (240, 250]', 'Fare (250, 270]', 'Fare (270, 600]',
                  'Mrs.',
                  'Miss',
                  'VIP']]
@@ -99,15 +112,17 @@ def page_3_characteristics(value):
             [
               Input('family_dropdown', 'value'),
               Input('age_dropdown', 'value'),
+              Input('fare_dropdown', 'value'),
               Input('cabin_dropdown', 'value'),
               Input('title_radio', 'value'),
               Input('sex_radio', 'value'),
               Input('port_radio', 'value')
               ])
-def update_user_table(family, age, cabin, title, sex, embark):
+def update_user_table(family, age, fare, cabin, title, sex, embark):
     return html.Div([
         html.Div(f'Family Members: {family}'),
         html.Div(f'Age: {age}'),
+        html.Div(f'Fare: {fare_list[int(fare)]}'),
         html.Div(f'Cabin Class: {cabin}'),
         html.Div(f'Title: {title}'),
         html.Div(f'Sex: {sex}'),
@@ -119,16 +134,18 @@ def update_user_table(family, age, cabin, title, sex, embark):
             [
               Input('family_dropdown', 'value'),
               Input('age_dropdown', 'value'),
+              Input('fare_dropdown', 'value'),
               Input('cabin_dropdown', 'value'),
               Input('title_radio', 'value'),
               Input('sex_radio', 'value'),
               Input('port_radio', 'value')
               ])
-def final_prediction(family, age, cabin, title, sex, embark):
-    inputs=[family, age, cabin, title, sex, embark]
-    keys=['family', 'age', 'cabin', 'title', 'sex', 'embark']
+def final_prediction(family, age, fare, cabin, title, sex, embark):
+    inputs=[family, age, fare, cabin, title, sex, embark]
+    keys=['family', 'age', 'fare', 'cabin', 'title', 'sex', 'embark']
     dict6=dict(zip(keys, inputs))
     df=pd.DataFrame([dict6])
+
     # create the features we'll need to run our logreg model.
     df['age']=pd.to_numeric(df.age, errors='coerce')
     df['family']=pd.to_numeric(df.family, errors='coerce')
@@ -143,12 +160,18 @@ def final_prediction(family, age, cabin, title, sex, embark):
     df['mrs']=np.where(df.title=='Mrs.', 1,0)
     df['miss']=np.where(df.title=='Miss', 1,0)
     df['vip']=np.where(df.title=='VIP', 1,0)
+    for item in fare_list:
+        df[item] = 0
+    df[fare_list[int(fare)]] = 1
+
     # drop unnecessary columns, and reorder columns to match the logreg model.
-    df=df.drop(['age', 'cabin', 'title', 'sex', 'embark'], axis=1)
+    df=df.drop(['age', 'cabin', 'fare', 'title', 'sex', 'embark'], axis=1)
     df=df[['family', 'female', 'second', 'third', 'cherbourg', 'queenstown', 'age2028',
-    'age2838', 'age3880', 'mrs', 'miss', 'vip']]
+    'age2838', 'age3880', 'mrs', 'miss', 'vip'] + fare_list]
+    print(df.T)
+
     # unpickle the final model
-    file = open('resources/final_logreg_model.pkl', 'rb')
+    file = open('resources/final_random_model.pkl', 'rb')
     logreg=pickle.load(file)
     file.close()
     # predict on the user-input values (need to create an array for this)

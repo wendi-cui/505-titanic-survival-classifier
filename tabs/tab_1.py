@@ -16,7 +16,7 @@ tab_1_layout = html.Div([
         dcc.Markdown("* Individual results of the testing dataset, for further analysis of incorrect predictions."),
         dcc.Markdown("* A feature to receive new user inputs that makes predictions based on the new data."),
         dcc.Markdown("* An interactive user interface deployed on a cloud platform and accessible to potential reviewers."),
-        html.A('View code on github', href='https://github.com/plotly-dash-apps/505-titanic-survival-classifier'),
+        html.A('View code on github', href='https://github.com/wendi-cui/505-titanic-survival-classifier'),
     ],className='ten columns'),
     html.Div([
     html.Img(src='data:image/png;base64,{}'.format(boat_photo.decode()), style={'height':'400px'}),

@@ -66,7 +66,7 @@ def display_eval_metrics(value):
         )]
 
         mylayout = go.Layout(
-            title='Evaluation Metrics for Logistic Regression Model (Testing Dataset = 127 passengers)',
+            title='Evaluation Metrics for Random Forest Model (Testing Dataset = 127 passengers)',
             xaxis = {'title': 'Metrics'},
             yaxis = {'title': 'Percent'},
 
@@ -128,7 +128,7 @@ def display_eval_metrics(value):
                        align = ['left'] * 5))
 
         layout = go.Layout(
-            title = f'Logistic Regression Model (Testing Dataset)',
+            title = f'Random Forest Model (Testing Dataset)',
         )
 
         fig = dict(data=[trace], layout=layout)

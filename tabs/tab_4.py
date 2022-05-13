@@ -7,6 +7,12 @@ df=pd.read_csv(filepath)
 names=df['Name'].values
 index=df['Name'].index.values
 nameslist = list(zip(index, names))
+fare_list = ['Fare (0, 10]','Fare (10, 20]', 'Fare (20, 30]', 'Fare (30, 40]', 'Fare (40, 50]',
+       'Fare (50, 60]', 'Fare (60, 70]', 'Fare (70, 80]', 'Fare (80, 90]',
+       'Fare (90, 100]', 'Fare (100, 110]', 'Fare (110, 120]',
+       'Fare (120, 140]', 'Fare (140, 150]', 'Fare (150, 160]',
+       'Fare (160, 170]', 'Fare (170, 220]', 'Fare (220, 240]',
+       'Fare (240, 250]', 'Fare (250, 270]', 'Fare (270, 600]']
 
 tab_4_layout = html.Div([
     html.H3('Would you survive the Titanic?'),
@@ -20,7 +26,7 @@ tab_4_layout = html.Div([
                 options=[{'label': i, 'value': i} for i in range(0,9)],
                 value='2',
                 ),
-        ],className='three columns'),
+        ],className='two columns'),
         html.Div([
             html.Div('Age'),
             dcc.Dropdown(
@@ -29,7 +35,16 @@ tab_4_layout = html.Div([
                 value='25',
 
                 ),
-        ],className='three columns'),
+        ],className='two columns'),
+        html.Div([
+            html.Div('Fare'),
+            dcc.Dropdown(
+                id='fare_dropdown',
+                options=[{'label': fare_list[i], 'value': i} for i in range(len(fare_list))],
+                value='1',
+
+                ),
+        ],className='two columns'),
         html.Div([
             html.Div('Cabin Class'),
             dcc.Dropdown(
@@ -37,7 +52,7 @@ tab_4_layout = html.Div([
                 options=[{'label': i, 'value': i} for i in ['First', 'Second', 'Third']],
                 value='First',
                 ),
-        ],className='four columns'),
+        ],className='two columns'),
         html.Div('     ', className='one column')
     ],className='twelve columns'),
 
